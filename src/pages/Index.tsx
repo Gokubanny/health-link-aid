@@ -1,12 +1,324 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { 
+  MapPin, 
+  Calendar, 
+  Phone, 
+  Shield, 
+  Heart, 
+  Users, 
+  Clock, 
+  Star,
+  Search,
+  Video,
+  MessageCircle,
+  Stethoscope,
+  Activity,
+  UserCheck
+} from "lucide-react";
+import heroImage from "@/assets/healthcare-hero.jpg";
 
 const Index = () => {
+  const [location, setLocation] = useState("");
+
+  const services = [
+    {
+      icon: Video,
+      title: "Virtual Consultations",
+      description: "Connect with healthcare professionals through secure video calls from anywhere.",
+      color: "bg-gradient-primary"
+    },
+    {
+      icon: MapPin,
+      title: "Hospital Locator",
+      description: "Find the nearest hospitals and healthcare facilities in your area instantly.",
+      color: "bg-gradient-secondary"
+    },
+    {
+      icon: Calendar,
+      title: "Appointment Booking",
+      description: "Schedule appointments with doctors and specialists at your convenience.",
+      color: "bg-gradient-primary"
+    },
+    {
+      icon: MessageCircle,
+      title: "Health Counseling",
+      description: "Get one-on-one health advisory and counseling from certified professionals.",
+      color: "bg-gradient-secondary"
+    }
+  ];
+
+  const stats = [
+    { icon: Users, value: "50K+", label: "Patients Connected" },
+    { icon: Stethoscope, value: "1,200+", label: "Healthcare Providers" },
+    { icon: MapPin, value: "500+", label: "Partner Hospitals" },
+    { icon: UserCheck, value: "98%", label: "Patient Satisfaction" }
+  ];
+
+  const testimonials = [
+    {
+      name: "Dr. Sarah Johnson",
+      role: "Chief Medical Officer, City Hospital",
+      content: "This platform has revolutionized how we connect with our patients. The interface is intuitive and our patient engagement has increased by 300%.",
+      rating: 5
+    },
+    {
+      name: "Maria Rodriguez",
+      role: "Patient",
+      content: "Finding the right doctor and booking appointments has never been easier. The virtual consultations are a game-changer for busy parents like me.",
+      rating: 5
+    }
+  ];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Heart className="h-8 w-8 text-primary" />
+            <span className="text-2xl font-bold text-primary">HealthConnect</span>
+          </div>
+          <nav className="hidden md:flex items-center gap-6">
+            <a href="#services" className="text-foreground hover:text-primary transition-colors">Services</a>
+            <a href="#hospitals" className="text-foreground hover:text-primary transition-colors">Find Hospitals</a>
+            <a href="#about" className="text-foreground hover:text-primary transition-colors">About</a>
+            <Button variant="outline" size="sm">Log In</Button>
+            <Button size="sm" className="bg-gradient-primary text-primary-foreground shadow-soft">Get Started</Button>
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="relative py-20 px-4 bg-gradient-hero text-white overflow-hidden">
+        <div className="absolute inset-0 bg-black/20" />
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        />
+        <div className="container mx-auto relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <Badge className="mb-6 bg-white/20 text-white border-white/30">
+              🏥 Connecting Healthcare, Empowering Lives
+            </Badge>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+              Your Health,
+              <span className="text-secondary-light"> Connected</span>
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto">
+              Bridge the gap between hospitals and patients with our comprehensive healthcare platform. 
+              Find nearby hospitals, book consultations, and get personalized health advisory services.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-hero text-lg px-8 py-6">
+                <Calendar className="mr-2 h-5 w-5" />
+                Book Consultation
+              </Button>
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 text-lg px-8 py-6">
+                <MapPin className="mr-2 h-5 w-5" />
+                Find Hospitals
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="bg-gradient-primary w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-soft">
+                  <stat.icon className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
+                <div className="text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="py-20 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-primary/10 text-primary">Our Services</Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Comprehensive Healthcare Solutions</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              From virtual consultations to hospital finder services, we provide everything you need for better healthcare access.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {services.map((service, index) => (
+              <Card key={index} className="group hover:shadow-card transition-all duration-300 border-0 shadow-soft bg-gradient-card">
+                <CardHeader className="text-center pb-4">
+                  <div className={`w-16 h-16 rounded-2xl ${service.color} flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <service.icon className="h-8 w-8 text-white" />
+                  </div>
+                  <CardTitle className="text-xl">{service.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <CardDescription className="text-base leading-relaxed">
+                    {service.description}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Hospital Finder Section */}
+      <section id="hospitals" className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <Badge className="mb-4 bg-secondary/10 text-secondary">Hospital Locator</Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">Find Healthcare Near You</h2>
+              <p className="text-xl text-muted-foreground">
+                Locate the nearest hospitals, clinics, and healthcare facilities in your area with real-time availability.
+              </p>
+            </div>
+            
+            <Card className="shadow-card border-0 bg-gradient-card">
+              <CardContent className="p-8">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1 relative">
+                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input
+                      placeholder="Enter your location or zip code"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      className="pl-10 h-12 text-lg border-2 focus:border-primary"
+                    />
+                  </div>
+                  <Button size="lg" className="bg-gradient-primary text-primary-foreground shadow-soft px-8">
+                    <Search className="mr-2 h-5 w-5" />
+                    Find Hospitals
+                  </Button>
+                </div>
+                
+                <div className="grid md:grid-cols-3 gap-6 mt-8">
+                  <div className="flex items-center gap-3">
+                    <Clock className="h-6 w-6 text-secondary" />
+                    <div>
+                      <div className="font-semibold">Real-time Availability</div>
+                      <div className="text-sm text-muted-foreground">Live updates on bed availability</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Activity className="h-6 w-6 text-secondary" />
+                    <div>
+                      <div className="font-semibold">Emergency Services</div>
+                      <div className="text-sm text-muted-foreground">24/7 emergency care locations</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Shield className="h-6 w-6 text-secondary" />
+                    <div>
+                      <div className="font-semibold">Verified Facilities</div>
+                      <div className="text-sm text-muted-foreground">Licensed and certified hospitals</div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-primary/10 text-primary">Testimonials</Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Trusted by Healthcare Professionals</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {testimonials.map((testimonial, index) => (
+              <Card key={index} className="shadow-card border-0 bg-gradient-card">
+                <CardContent className="p-8">
+                  <div className="flex mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-lg mb-6 leading-relaxed text-foreground/80">
+                    "{testimonial.content}"
+                  </p>
+                  <div>
+                    <div className="font-semibold text-lg">{testimonial.name}</div>
+                    <div className="text-muted-foreground">{testimonial.role}</div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Emergency Contact */}
+      <section className="py-16 px-4 bg-destructive text-destructive-foreground">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">Medical Emergency?</h2>
+          <p className="text-xl mb-6 opacity-90">Get immediate help from emergency services</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" variant="secondary" className="bg-white text-destructive hover:bg-white/90">
+              <Phone className="mr-2 h-5 w-5" />
+              Call Emergency: 911
+            </Button>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+              Find Emergency Room
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-primary text-primary-foreground py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <Heart className="h-8 w-8" />
+                <span className="text-2xl font-bold">HealthConnect</span>
+              </div>
+              <p className="text-primary-foreground/80 text-lg mb-6 max-w-md">
+                Bridging the gap between healthcare providers and patients through innovative technology and compassionate care.
+              </p>
+              <div className="flex gap-4">
+                <Button variant="secondary" size="sm">Privacy Policy</Button>
+                <Button variant="secondary" size="sm">Terms of Service</Button>
+              </div>
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg mb-4">Services</h3>
+              <ul className="space-y-2 text-primary-foreground/80">
+                <li>Virtual Consultations</li>
+                <li>Hospital Finder</li>
+                <li>Health Counseling</li>
+                <li>Emergency Services</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg mb-4">Contact</h3>
+              <ul className="space-y-2 text-primary-foreground/80">
+                <li>support@healthconnect.com</li>
+                <li>1-800-HEALTH</li>
+                <li>24/7 Support Available</li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-primary-foreground/20 mt-12 pt-8 text-center text-primary-foreground/60">
+            <p>&copy; 2024 HealthConnect. All rights reserved. Connecting healthcare, empowering lives.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
