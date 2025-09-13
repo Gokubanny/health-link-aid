@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { 
   MapPin, 
@@ -12,17 +12,37 @@ import {
   Users, 
   Clock, 
   Star,
-  Search,
   Video,
   MessageCircle,
   Stethoscope,
   Activity,
-  UserCheck
+  UserCheck,
+  LogOut
 } from "lucide-react";
 import heroImage from "@/assets/healthcare-hero.jpg";
+import { useAuth } from "@/contexts/AuthContext";
+import HospitalFinder from "@/components/HospitalFinder";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
-  const [location, setLocation] = useState("");
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    } else {
+      toast({
+        title: "Signed out",
+        description: "You have been successfully signed out."
+      });
+    }
+  };
 
   const services = [
     {
@@ -86,8 +106,24 @@ const Index = () => {
             <a href="#services" className="text-foreground hover:text-primary transition-colors">Services</a>
             <a href="#hospitals" className="text-foreground hover:text-primary transition-colors">Find Hospitals</a>
             <a href="#about" className="text-foreground hover:text-primary transition-colors">About</a>
-            <Button variant="outline" size="sm">Log In</Button>
-            <Button size="sm" className="bg-gradient-primary text-primary-foreground shadow-soft">Get Started</Button>
+            {user ? (
+              <div className="flex items-center gap-4">
+                <span className="text-muted-foreground">Welcome, {user.email}</span>
+                <Button variant="outline" size="sm" onClick={handleSignOut}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button variant="outline" size="sm">Log In</Button>
+                </Link>
+                <Link to="/auth">
+                  <Button size="sm" className="bg-gradient-primary text-primary-foreground shadow-soft">Get Started</Button>
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       </header>
@@ -113,14 +149,31 @@ const Index = () => {
               Find nearby hospitals, book consultations, and get personalized health advisory services.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-hero text-lg px-8 py-6">
-                <Calendar className="mr-2 h-5 w-5" />
-                Book Consultation
-              </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 text-lg px-8 py-6">
-                <MapPin className="mr-2 h-5 w-5" />
-                Find Hospitals
-              </Button>
+              {user ? (
+                <>
+                  <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-hero text-lg px-8 py-6">
+                    <Calendar className="mr-2 h-5 w-5" />
+                    Book Consultation
+                  </Button>
+                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 text-lg px-8 py-6">
+                    <MapPin className="mr-2 h-5 w-5" />
+                    Find Hospitals
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/auth">
+                    <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-hero text-lg px-8 py-6">
+                      <Calendar className="mr-2 h-5 w-5" />
+                      Get Started
+                    </Button>
+                  </Link>
+                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 text-lg px-8 py-6">
+                    <MapPin className="mr-2 h-5 w-5" />
+                    Find Hospitals
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -174,63 +227,7 @@ const Index = () => {
       </section>
 
       {/* Hospital Finder Section */}
-      <section id="hospitals" className="py-20 px-4 bg-muted/30">
-        <div className="container mx-auto">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <Badge className="mb-4 bg-secondary/10 text-secondary">Hospital Locator</Badge>
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">Find Healthcare Near You</h2>
-              <p className="text-xl text-muted-foreground">
-                Locate the nearest hospitals, clinics, and healthcare facilities in your area with real-time availability.
-              </p>
-            </div>
-            
-            <Card className="shadow-card border-0 bg-gradient-card">
-              <CardContent className="p-8">
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1 relative">
-                    <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input
-                      placeholder="Enter your location or zip code"
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                      className="pl-10 h-12 text-lg border-2 focus:border-primary"
-                    />
-                  </div>
-                  <Button size="lg" className="bg-gradient-primary text-primary-foreground shadow-soft px-8">
-                    <Search className="mr-2 h-5 w-5" />
-                    Find Hospitals
-                  </Button>
-                </div>
-                
-                <div className="grid md:grid-cols-3 gap-6 mt-8">
-                  <div className="flex items-center gap-3">
-                    <Clock className="h-6 w-6 text-secondary" />
-                    <div>
-                      <div className="font-semibold">Real-time Availability</div>
-                      <div className="text-sm text-muted-foreground">Live updates on bed availability</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Activity className="h-6 w-6 text-secondary" />
-                    <div>
-                      <div className="font-semibold">Emergency Services</div>
-                      <div className="text-sm text-muted-foreground">24/7 emergency care locations</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Shield className="h-6 w-6 text-secondary" />
-                    <div>
-                      <div className="font-semibold">Verified Facilities</div>
-                      <div className="text-sm text-muted-foreground">Licensed and certified hospitals</div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+      <HospitalFinder />
 
       {/* Testimonials */}
       <section className="py-20 px-4">
