@@ -14,96 +14,20 @@ export type Database = {
   }
   public: {
     Tables: {
-      hospitals: {
-        Row: {
-          address: string
-          bed_capacity: number | null
-          city: string
-          created_at: string
-          emergency_services: boolean | null
-          hospital_type: string | null
-          id: string
-          latitude: number | null
-          longitude: number | null
-          name: string
-          phone: string | null
-          rating: number | null
-          state: string
-          website: string | null
-          zip_code: string | null
-        }
-        Insert: {
-          address: string
-          bed_capacity?: number | null
-          city: string
-          created_at?: string
-          emergency_services?: boolean | null
-          hospital_type?: string | null
-          id?: string
-          latitude?: number | null
-          longitude?: number | null
-          name: string
-          phone?: string | null
-          rating?: number | null
-          state: string
-          website?: string | null
-          zip_code?: string | null
-        }
-        Update: {
-          address?: string
-          bed_capacity?: number | null
-          city?: string
-          created_at?: string
-          emergency_services?: boolean | null
-          hospital_type?: string | null
-          id?: string
-          latitude?: number | null
-          longitude?: number | null
-          name?: string
-          phone?: string | null
-          rating?: number | null
-          state?: string
-          website?: string | null
-          zip_code?: string | null
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          created_at: string
-          full_name: string | null
-          id: string
-          location: string | null
-          phone: string | null
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          full_name?: string | null
-          id?: string
-          location?: string | null
-          phone?: string | null
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          full_name?: string | null
-          id?: string
-          location?: string | null
-          phone?: string | null
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      admin: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      generate_booking_reference: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
